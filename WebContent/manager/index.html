@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="../layui/css/layui.css">
+<meta charset="UTF-8">
+</head>
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin">
+		<div class="layui-header">
+			<div class="layui-logo">订单管理系统后台</div>
+			<!-- 头部区域（可配合layui已有的水平导航） -->
+			
+			<ul class="layui-nav layui-layout-right">
+				<li class="layui-nav-item"><a href="javascript:;"> 
+				<img
+						src="http://t.cn/RCzsdCq" class="layui-nav-img"> 管理员
+				
+				<li class="layui-nav-item"><a href="../login.html">退出登陆</a></li>
+			</ul>
+		</div>
+
+		<div class="layui-side layui-bg-black">
+			<div class="layui-side-scroll">
+				<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+				<ul class="layui-nav layui-nav-tree" lay-filter="test">
+
+				
+					<li class="layui-nav-item "><a href="javascript:;" >员工管理</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;" _href="./employeeManager.html"><cite>管理员工</cite></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" _href="./addemployee.html"><cite>添加员工</cite></a>
+							</dd>
+							
+						</dl>
+					</li>
+					<li class="layui-nav-item "><a href="javascript:;">数据报表</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;" _href="./orderReport.html"><cite>订单报表</cite></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" _href="./customerReport.html"><cite>客户报表</cite></a>
+							</dd>
+
+						</dl>
+					</li>
+					<li class="layui-nav-item ">
+					<a class=""
+						href="javascript:;">数据管理</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;" _href="./databaseManager.html"><cite>数据库维护</cite></a>
+							</dd>
+							
+							<dd>
+								<a href="javascript:;" _href="./logtable.html"><cite>日志管理</cite></a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="layui-body">
+			<div class="layui-tab" lay-filter="em-tab" lay-allowclose="true">
+	  			<ul class="layui-tab-title">
+			    <li class="layui-this" >主页</li>
+	  			</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						<iframe src="./welcome.html" frameborder="0" class="em-iframe" style="width:100%;height:532.68px;"></iframe>
+					</div>
+				    
+				</div>
+			</div>
+		</div>
+		<div class="layui-footer">
+			<!-- 底部固定区域 -->
+			© layui.com - 底部固定区域
+		</div>
+	</div>
+	
+	<script src="../layui/layui.js"></script>
+	<script src="./js/index.js"></script>
+</body>
+</html>

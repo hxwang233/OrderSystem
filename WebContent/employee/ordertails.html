@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <title>订单详情弹出框</title>
+</head>
+
+<body>
+    <form id="order-detail-form">
+        <input type="hidden" id="orderno" name="orderno" />
+        <table class="layui-table" id="orderdetailstable" lay-filter="searchorderdetails">
+            <tbody>
+                <th>
+                    产品编号
+                </th>
+                <th>
+                    销售数量
+                </th>
+                <th>
+                    成交单价
+                </th>
+            </tbody>
+        </table>
+    </form>
+</body>
+
+</html>

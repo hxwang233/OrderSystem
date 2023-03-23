@@ -1,0 +1,289 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <title>查看产品</title>
+</head>
+
+<body>
+    <div class='panel-1' id='search_order'>
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="height: auto;">
+                    <div class="layui-form-item">
+                        <div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">订单编号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="orderno" 
+                                        placeholder="请输入订单编号" autocomplete="off" class="layui-input" id="orderno">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">客户编号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="customerno" 
+                                        placeholder="请输入客户编号" autocomplete="off" class="layui-input" id="customerno">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">发票号码</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="invoiceno" placeholder="请输入发票号码" autocomplete="off"
+                                        class="layui-input" id="invoiceno">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">订货日期</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="order_createdate" placeholder="yyyy-MM-dd" autocomplete="off">
+                                </div>
+
+                                <div class="layui-inline">
+                                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit=""
+                                        lay-filter="LAY-user-front-search" data-type="reload" id="searchordbtn">
+                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="layui-table" id="ordertable" lay-filter="searchorder"></table>
+                </div>
+            </div>
+        </div>
+
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="./layui/layui.js"></script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#ordertable',
+            height: 312,
+            width:1200,
+            url: '../OrdermasterSearchServlet' //数据接口
+                ,
+            id: 'orderReload',
+            page: true //开启分页
+                ,
+            limit: 30,
+            cols: [
+                [ //表头
+                    {
+                        field: 'orderno',
+                        title: '订单编号',
+                        width: 100,
+                        sort: true
+                    }, {
+                        field: 'customerno',
+                        title: '客户号',
+                        width: 180
+                    }, {
+                        field: 'saleno',
+                        title: '业务员编号',
+                        width: 180
+                    }, {
+                        field: 'ordersum',
+                        title: '订单金额',
+                        width: 180
+                    }, {
+                        field: 'orderdate',
+                        title: '订货日期',
+                        width: 120,
+                        templet: "<div>{{layui.util.toDateString(d.hiredate, 'yyyy-MM-dd')}}</div>",
+                        sort: true
+                    }, {
+                        field: 'shipdate',
+                        title: '订货日期',
+                        width: 120,
+                        templet: "<div>{{layui.util.toDateString(d.hiredate, 'yyyy-MM-dd')}}</div>",
+                        sort: true
+                    },{
+                        field: 'invoiceno',
+                        title: '发票号码',
+                        width: 120,
+                        sort: true
+                    },{
+                        field: 'right',
+                        title: '操作',
+                        width: 175,
+                        align: 'center',
+                        toolbar: '#barDemo'
+                    }
+                ]
+            ]
+        });
+        var $ = layui.$,
+            active = {
+                reload: function () {
+                    var orderno = $('#orderno');
+                    var customerno = $('#customerno');
+                    var invoiceno = $('#invoiceno');
+                    var order_createdate = $('#order_createdate');
+                    //执行重载
+                    table.reload('orderReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where: {
+                            orderno: orderno.val(),
+                            customerno: customerno.val(),
+                            invoiceno: invoiceno.val(),
+                            order_createdate: order_createdate.val(),
+                        }
+                    });
+                }
+            };
+
+        $('#searchordbtn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+
+
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function (obj) {
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(searchorder)', function (obj) {
+            var data = obj.data;
+            layer.config({
+                offset: '150px'
+            });
+            if (obj.event === 'detail') {
+                layer.open({
+                    type: 2,
+                    title: '查看订单明细',
+                    area: ['680px', '300px'],
+                    offset: '150px',
+                    btn: ['确认'],
+                    shadeClose: true,
+                    shade: 0.4,
+                    maxmin: true,
+                    content: 'ordertails.html',
+                    success: function (layero, index) {
+                        let body = layer.getChildFrame('body',index);
+                        $.ajax({
+                            type: "GET",
+                            url: "../OrderdetailSearchServlet",
+                            data: {
+                                "orderno": data.orderno,
+                            },
+                            dataType:"json",
+                            success:function(res){
+                                for(var i in res){
+                                    body.find('#orderdetailstable tbody').append('<tr><td class="productno">'+res[i].productno+'</td><td class="gty">'+res[i].qty+'</td><td class="price">'+res[i].price+'</td></tr>');
+                                }
+                            }
+                        });
+                        layui.form.render();
+                    },
+                    yes: function (index, layero) {
+                        layer.close(index);
+                    }
+                })
+
+
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                  	   type:"POST",
+                  	   url:"../OrdermasterDeleServlet",
+                  	   data:{
+                  		    //"method":"delete",
+                     		"orderno":data.orderno
+                  	   },
+                  	   success:function(){
+                  		   layui.alert("删除成功")
+                  	   }
+                  	   
+                     });
+                });
+            } else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '修改订单明细',
+                    area: ['650px', '300px'],
+                    offset: '150px',
+                    btn: ['确认', '取消'],
+                    shadeClose: true,
+                    shade: 0.4,
+                    maxmin: true,
+                    content: 'ordertails.html',
+                    success: function (layero, index) {
+                        let body = layer.getChildFrame('body', index);
+                        body.find("#orderno").val(data.orderno);
+                        $.ajax({
+                            type: "GET",
+                            url: "../OrderdetailSearchServlet",
+                            data: {
+                                "orderno": data.orderno
+                            },
+                            dataType:"json",
+                            success:function(res){
+                                for(var i in res){
+                                    body.find('#orderdetailstable tbody').append('<tr><td class="productno"><input type="text" name="productno" value="'+res[i].productno+'" /></td><td class="qty"><input type="text" name="qty" value="'+res[i].qty+'" /></td><td class="price"><input type="text" name="price" value="'+res[i].price+'" /></td></tr>');
+                                }
+                            }
+                        });
+                        layui.form.render();
+                    },
+                    yes: function (index, layero) {
+                        let body = layer.getChildFrame('body', index);
+                        var orderno = body.find("#orderno").val();
+                        $.ajax({
+                            type:"POST",
+                            url:"../OrderdetailAlterServlet",
+                            data:body.find("#order-detail-form").serialize(),
+                            dataType:"json",
+                            success:function(res){
+                                obj.update({
+                                    ordersum: res.ordersum
+                                });
+                            }
+                        })
+                        layer.close(index);
+                    },
+                    cancel: function (index, layero) {
+                        layer.close(index);
+                    }
+                })
+            }
+        })
+
+    });
+
+</script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //常规用法
+        laydate.render({
+            elem: '#order_createdate'
+        });
+
+    });
+
+</script>
+</html>

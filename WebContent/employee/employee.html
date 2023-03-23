@@ -1,0 +1,97 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <title>基本资料</title>
+</head>
+
+<body>
+    <div class='panel-1' id='emMessage'>
+        <form class="layui-form" id="employeeform">
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">员工号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="employeeno" id="employeeno" required lay-verify="required" autocomplete="off"
+                        class="layui-input" value="" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">员工姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="employeename"  id="employeename" required lay-verify="required" placeholder="请输入客户名称"
+                        autocomplete="off" class="layui-input" value="" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sex" id="sex" required lay-verify="required" placeholder="请输入性别"
+                        autocomplete="off" class="layui-input" value="" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">所属部门</label>
+                <div class="layui-input-block">
+                    <input type="text" name="department" id="department" required lay-verify="required" autocomplete="off"
+                        class="layui-input" value="" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">职务</label>
+                <div class="layui-input-block">
+                    <input type="text" name="headship" id="headship" required lay-verify="required" autocomplete="off"
+                        class="layui-input" value="" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">雇佣日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="hiredate" id="hiredate" required lay-verify="required" autocomplete="off"
+                        class="layui-input" value="" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">出生日期</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">薪水</label>
+                <div class="layui-input-block">
+                    <input type="text" name="salary" id="salary" required lay-verify="required" autocomplete="off"
+                        class="layui-input" value="" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">住址</label>
+                <div class="layui-input-block" value="">
+                    <input type="text" name="address" id="address" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="telephone" id="telephone" required lay-verify="required" placeholder="请输入客户电话"
+                        autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script src="./layui/layui.js"></script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //常规用法
+        laydate.render({
+            elem: '#birthday'
+        });
+
+    });
+
+</script>
+</html>

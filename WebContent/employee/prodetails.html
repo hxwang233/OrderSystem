@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <title>产品信息弹出框</title>
+</head>
+
+<body>
+    <form class="layui-form" action="" lay-filter="example">
+        <div class="layui-form-item">
+            <div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">产品编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="productno" required lay-verify="required" placeholder="请输入产品名称"
+                            autocomplete="off" class="layui-input"  id="productno" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">产品名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="productname" required lay-verify="required" placeholder="请输入产品名称"
+                            autocomplete="off" class="layui-input" id="productname" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">产品定价</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="productname" required lay-verify="required" placeholder="请输入产品定价"
+                            autocomplete="off" class="layui-input" id="productprice" readonly>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">产品类别</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="productclass" placeholder="请输入" autocomplete="off" class="layui-input"
+                            id="productclass" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">建立时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="pro_createdate" name="createdate" placeholder="请输入" autocomplete="off"
+                            class="layui-input" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+
+</body>
+
+</html>

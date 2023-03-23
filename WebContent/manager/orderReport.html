@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+	<div class="layui-main" style="height:500px">
+		<div class="site-tree" >
+
+			<ul class="layui-nav layui-nav-tree" lay-filter="test">
+
+				<li class="layui-nav-item "><a href="javascript:;"
+					> <cite>近一周订单分布</cite></a></li>
+			  	<li class="layui-nav-item "><a href="javascript:;"
+					> <cite>近一周订单交易额</cite></a></li>
+			<!-- 	<li class="layui-nav-item "><a href="javascript:;"
+					> <cite>客户分布</cite></a></li>			
+				<li class="layui-nav-item "><a href="javascript:;"
+					> <cite>客户分布</cite></a></li>
+				<li class="layui-nav-item "><a href="javascript:;"
+					> <cite>客户分布</cite></a></li>
+				<li class="layui-nav-item "><a href="javascript:;"
+					> <cite>客户分布</cite></a></li>
+			-->	
+				
+			</ul>
+		</div>
+
+		<div class="layui-body">
+			<div id="main" style="width: 100%; height: 100%;"></div>
+		</div>
+	</div>
+
+
+	<script src="../layui/layui.js"></script>
+	<script src="../js/echarts.js"></script>
+	<script src="../js/westeros.js"></script>
+	
+	<script src="./js/orderReport.js"></script>
+</body>
+</html>

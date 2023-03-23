@@ -1,0 +1,63 @@
+<html>
+<head>
+    <title>订单管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/login.js"></script>
+    <link rel="stylesheet" type="text/css" href="./login.css" />
+</head>
+<body>
+    <div class="main">
+        <div id="particles-js"></div>
+        <!--background scripts -->
+        <script src="./js/particles.min.js"></script>
+        <script src="./js/app.js"></script>
+        <div class="login-area">
+            <h1>订单管理系统<sup>V1.0.1</sup></h1>
+            <div class="login">
+                <div class="header">
+                    <div class="switch" id="switch">
+                        <a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
+                        <div class="switch_bottom" id="switch_bottom"></div>
+                    </div>
+                </div>
+                <div class="web_qr_login" id="web_qr_login" style="display: block; height: 235px;">
+                    <!--login start-->
+                    <div class="web_login" id="web_login">
+                        <div class="login-box">
+                            <div class="login_form">
+                            	<form id="loginform" method="POST">
+	                                <div class="uinArea" id="uinArea">
+	                                    <label class="input-tips" for="u">用户名</label>
+	                                    <div class="inputOuter" id="uArea">
+	                                        <input type="text" id="u" name="userid" class="inputstyle" 
+	                                            autocomplete="off" />
+	                                    </div>
+	                                </div>
+	                                <div class="pwdArea" id="pwdArea">
+	                                    <label class="input-tips" for="p">密码</label>
+	                                    <div class="inputOuter" id="pArea">
+	                                        <input type="password" id="p" name="password" class="inputstyle" autocomplete="off" />
+	                                    </div>
+	                                </div>
+	                                <div class="identityArea">
+	                                    <label class="identity-manager" for="manager"><input type="radio"
+	                                            name="identity" id="manager" value="manager" checked="checked" />管理员</label>
+	                                    <label class="identity-manager" for="comment"><input type="radio"
+	                                            name="identity" id="comment" value="comment" />普通员工</label>
+	                                </div>
+                                </form>
+                                <div class="login_btn">
+                                    <input type="button" id="login_btn" value="登 录" class="button_blue" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--login end-->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

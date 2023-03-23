@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="./layui/css/layui.css">
+<title>主页</title>
+</head>
+<body>
+	<p>
+		<br />
+	</p>
+	<div class='panel-1' id='welcome'>
+		<div class="layui-carousel" id="test1">
+			<div carousel-item>
+				<div>
+					<img src="./Pictures/1.jpg" width="1331" height="800">
+				</div>
+				<div>
+					<img src="./Pictures/2.jpg" width="1331" height="800">
+				</div>
+				<div>
+					<img src="./Pictures/3.jpg" width="1331" height="800">
+				</div>
+				<div>
+					<img src="./Pictures/4.jpg" width="1331" height="800">
+				</div>
+				<div>
+					<img src="./Pictures/5.jpg" width="1331" height="800">
+				</div>
+				<div>
+					<img src="./Pictures/6.jpg" width="1331" height="800">
+				</div>
+				<div>
+					<img src="./Pictures/7.png" width="1331" height="800">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 条目中可以是任意内容，如：<img src=""> -->
+	<script src="./layui/layui.js"></script>
+	<script>
+		layui.use('carousel', function() {
+			var carousel = layui.carousel;
+			//建造实例
+			carousel.render({
+				elem : '#test1',
+				width : '100%' //设置容器宽度
+				,
+				arrow : 'always' //始终显示箭头
+				,
+				height:'800px'
+			//,anim: 'updown' //切换动画方式
+			});
+		});
+	</script>
+</body>
+</html>

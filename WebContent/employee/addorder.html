@@ -1,0 +1,177 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link id="layuicss-laydate" rel="stylesheet" href="https://lolicode.gitee.io/layui_component_tableselect/layui/css/modules/laydate/default/laydate.css?v=5.0.9" media="all">
+    <link id="layuicss-layer" rel="stylesheet" href="https://lolicode.gitee.io/layui_component_tableselect/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all">
+    <link id="layuicss-skincodecss" rel="stylesheet" href="https://lolicode.gitee.io/layui_component_tableselect/layui/css/modules/code.css" media="all">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <title>添加订单</title>
+</head>
+<style>
+.layui-form-radio{
+	margin:15 !important;
+}
+.layui-form-checkbox{
+	margin:8 !important;
+}
+</style>
+<body>
+    <form class="layui-form"  style="padding:20px;" id="order-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">客户：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="customerno" placeholder="请输入" required lay-verify="required" autocomplete="off" class="layui-input" id="demo2"
+                    ts-selected="003">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="productno" placeholder="请输入" required lay-verify="required" autocomplete="off" class="layui-input" id="demo" value=""
+                    ts-selected="001">
+            </div>
+        </div>
+        <div class="layui-form-item" style="width: 564.4px;">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="add_order">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./layui/layui.all.js"></script>
+    <script src="./layui/tableSelect.js"></script>
+    <script type="text/javascript">
+        var form = layui.form;
+        form.render();
+        var tableSelect = layui.tableSelect;
+
+        tableSelect.render({
+            elem: '#demo',
+            searchKey: 'productno',
+            checkedKey: 'productno',
+            searchPlaceholder: '请输入产品编号',
+            table: {
+               url: '../OrdermasterSproductServlet',
+                cols: [
+                    [{
+                            type: 'checkbox'
+                        },
+                        {
+                            field: 'productno',
+                            title: '产品编号',
+                            align: 'center',
+                            width: 100
+                        },
+                        {
+                            field: 'productname',
+                            title: '产品名称',
+                            align: 'center',
+                            width: 200
+                        },
+                        {
+                            field: 'productprice',
+                            title: '产品定价',
+                            align: 'center',
+                            width: 100
+                        },
+                        {
+                            field: 'number',
+                            title: '购买数量',
+                            align: 'center',
+                            edit: "<input type='text' value='0' placeholder='请输入数量'>",
+                            width: 100
+                        }
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                console.log(data);
+                layui.each(data.data, function (index, item) {
+                	console.log(item);
+                    NEWJSON.push(item.productno, item.number)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+
+
+        tableSelect.render({
+            elem: '#demo2',
+            checkedKey: 'customerno',
+            table: {
+                 url: '../OrdermasterScustomerServlet',
+                cols: [
+                    [{
+                            type: 'radio'
+
+                        },
+                        {
+                            field: 'customerno',
+                            title: '客户编号',
+                            align: 'center',
+                        },
+                        {
+                            field: 'customername',
+                            align: 'center',
+                            title: '客户名称'
+                        },
+                        {
+                            field: 'telephone',
+                            align: 'center',
+                            title: '手机'
+                        }
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.customerno)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+
+            
+        });
+    </script>
+    <script>
+    	var layer;
+    	layui.use('layer',function(){
+    		layer = layui.layer;
+    	})
+    	$(document).on('click','.layui-form-checkbox',function(){
+    		if($(this).parent().parent().siblings("td[data-field=number]").children("div").text()==""){
+    			layer.alert("数量不能为空！",{icon:5,zIndex:66666667});
+    		};
+    	});
+    </script>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form;
+            //监听提交
+            layer.config({
+                offset: '200px'
+            });
+            form.on('submit(add_order)', function (data) {
+                $.ajax({
+                    type: "GET",
+                    url: "../OrdermasterAddServlet",
+                    data: $("#order-form").serialize(),
+                    success: function () {
+                    	layer.msg('提交成功', {icon: 6,time: 1500},function(){
+                        	$('#return').trigger("click");
+                    	});
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>

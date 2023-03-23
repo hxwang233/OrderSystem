@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+
+	<form class="layui-form" action="../employeeAUpdateServlet" id="edit-emp-form"
+		name="edit-emp-form">
+
+		<input type="hidden" name="employeeno" id="employeeno"
+			lay-verify="required" placeholder="请输入" autocomplete="off"
+			class="layui-input">
+
+
+
+
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">部门</label>
+				<div class="layui-input-inline ">
+					<select name="department" id="department" lay-filter="aihao" lay-verify="required">
+						<option value=""></option>
+						<option value="办公室">办公室</option>
+						<option value="财务科">财务科</option>
+						<option value="业务科">业务科</option>
+					</select>
+				</div>
+				<label class="layui-form-label">职务</label>
+				<div class="layui-input-inline ">
+					<select name="headship" id="headship" lay-filter="aihao" lay-verify="required">
+						<option value=""></option>
+						<option value="文员">文员</option>
+						<option value="科长">科长</option>
+						<option value="职员">职员</option>
+						<option value="主任">主任</option>
+						<option value="出纳">出纳</option>
+					</select>
+				</div>
+
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">薪水</label>
+				<div class="layui-input-inline">
+					<input type="number" name="salary" id="salary"
+						lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<!--  <div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="judge">立即修改</button>
+			</div>
+		</div>
+		-->
+
+
+	</form>
+
+	<script src="../layui/layui.js"></script>
+	<script src="./js/empdetails.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="./layui/css/layui.css">
+<script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+<title>查看产品</title>
+</head>
+
+<body>
+	<div class='panel-1' id='searchcustomer'>
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div
+					class="layui-form layui-card-header layuiadmin-card-header-auto"
+					style="height: auto;">
+					<div class="layui-form-item">
+						<div>
+							<div class="layui-inline">
+								<label class="layui-form-label">产品编号</label>
+								<div class="layui-input-block">
+									<input type="text" name="productno" placeholder="请输入产品名称"
+										autocomplete="off" class="layui-input" id="productno">
+								</div>
+							</div>
+
+							<div class="layui-inline">
+								<label class="layui-form-label">产品名称</label>
+								<div class="layui-input-block">
+									<input type="text" name="productname" placeholder="请输入商品名称"
+										autocomplete="off" class="layui-input" id="productname">
+								</div>
+							</div>
+
+						</div>
+						<div>
+							<div class="layui-inline">
+								<label class="layui-form-label">产品类别</label>
+								<div class="layui-input-block">
+									<input type="text" name="productclass" placeholder="请输入" autocomplete="off"
+                                        class="layui-input" id="productclass"> 
+								</div>
+							</div>
+
+							<div class="layui-inline">
+								<label class="layui-form-label">建立时间</label>
+								<div class="layui-input-inline">
+									<input type="text" class="layui-input" id="pro_createdate"
+										placeholder="yyyy-MM-dd" autocomplete="off">
+								</div>
+
+								<div class="layui-inline">
+									<button class="layui-btn layuiadmin-btn-useradmin"
+										lay-submit="" lay-filter="LAY-user-front-search"
+										data-type="reload" id="searchprobtn">
+										<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<table class="layui-table" id="producttable"
+						lay-filter="searchproduct"></table>
+				</div>
+			</div>
+		</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="./layui/layui.js"></script>
+<script>
+	layui
+			.use(
+					'table',
+					function() {
+						var table = layui.table;
+
+						table
+								.render({
+									elem : '#producttable',
+									height : 312,
+									width : 945,
+									url : ' ../showproductServlet' //数据接口
+									,
+									id : 'productReload',
+									page : true //开启分页
+									,
+									limit : 30,
+									cols : [ [ //表头
+											{
+												field : 'productno',
+												title : '产品编号',
+												width : 100,
+												sort : true
+											},
+											{
+												field : 'productname',
+												title : '产品名称',
+												width : 180
+											},
+											{
+												field : 'productclass',
+												title : '产品类别',
+												width : 180
+											},
+											{
+												field : 'productprice',
+												title : '产品定价',
+												width : 180
+											},
+											{
+												field : 'createdate',
+												title : '创建时间',
+												templet : "<div>{{layui.util.toDateString(d.createdate, 'yyyy-MM-dd')}}</div>",
+												width : 120,
+												sort : true
+											}, {
+												field : 'right',
+												title : '操作',
+												width : 175,
+												align : 'center',
+												toolbar : '#barDemo'
+											} ] ]
+								});
+						var $ = layui.$, active = {
+							reload : function() {
+								var productno = $('#productno');
+								var productname = $('#productname');
+								var productclass = $('#productclass');
+								var pro_createdate = $('#pro_createdate');
+								//执行重载
+								table.reload('productReload', {
+									page : {
+										curr : 1
+									//重新从第 1 页开始
+									},
+									where : {
+										productno : productno.val(),
+										productname : productname.val(),
+										productclass : productclass.val(),
+										pro_createdate : pro_createdate.val(),
+									}
+								});
+							}
+						};
+
+						$('#searchprobtn').on('click', function() {
+							var type = $(this).data('type');
+							active[type] ? active[type].call(this) : '';
+						});
+
+						//监听表格复选框选择
+						table.on('checkbox(demo)', function(obj) {
+							console.log(obj)
+						});
+						//监听工具条
+						table.on('tool(searchproduct)', function(obj) {
+							var data = obj.data;
+							data.createdate = layui.util.toDateString(
+									data.createdate, 'yyyy-MM-dd');
+							layer.config({
+								offset : '150px'
+							});
+							if (obj.event === 'detail') {
+								layer.open({
+									type : 2,
+									title : '查看产品信息',
+									area : [ '650px', '300px' ],
+									offset : '150px',
+									btn : [ '确认' ],
+									shadeClose : true,
+									shade : 0.4,
+									maxmin : true,
+									content : 'prodetails.html',
+									success : function(layero, index) {
+										let body = layer.getChildFrame('body',
+												index);
+										body.find("#productno").val(
+												data.productno);
+										body.find("#productname").val(
+												data.productname);
+										body.find("#productclass").val(
+												data.productclass);
+										body.find("#productprice").val(
+												data.productprice);
+										body.find("#pro_createdate").val(
+												data.createdate);
+										layui.form.render();
+									},
+									yes : function(index, layero) {
+										layer.close(index);
+									}
+								})
+
+							} else if (obj.event === 'del') {
+								layer.confirm('真的删除行么', function(index) {
+									obj.del();
+									$.ajax({
+										type : "POST",
+										url : "../deleteproduct",
+										data : {
+											"productno" : data.productno
+										},
+										success : function() {
+											layui.alert("删除成功")
+										}
+
+									});
+									layer.close(index);
+								});
+							} else if (obj.event === 'edit') {
+								layer.open({
+									type : 2,
+									title : '修改产品信息',
+									area : [ '650px', '300px' ],
+									offset : '150px',
+									btn : [ '确认', '取消' ],
+									shadeClose : true,
+									shade : 0.4,
+									maxmin : true,
+									content : 'edit-pro.html',
+									success : function(layero, index) {
+										let body = layer.getChildFrame('body',
+												index);
+										body.find("#productno").val(
+												data.productno);
+										body.find("#productname").val(
+												data.productname);
+										body.find("#productclass").val(
+												data.productclass);
+										body.find("#productprice").val(
+												data.productprice);
+										body.find("#pro_createdate").val(
+												data.createdate);
+										layui.form.render();
+									},
+									yes : function(index, layero) {
+										let body = layer.getChildFrame('body',
+												index);
+										body.find("#edit-pro-form").submit();
+										obj.update({
+											productname : body.find(
+													"#productname").val(),
+											productclass : body.find(
+													"#productclass").val(),
+											productprice : body.find(
+													"#productprice").val(),
+										});
+										layer.close(index);
+									},
+									cancel : function(index, layero) {
+										layer.close(index);
+									}
+								})
+							}
+						})
+
+					});
+</script>
+<script>
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		//常规用法
+		laydate.render({
+			elem : '#pro_createdate'
+		});
+
+	});
+</script>
+</html>

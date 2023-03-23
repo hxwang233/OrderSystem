@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <title>添加产品</title>
+</head>
+<body>
+    <div class='panel-1' id='addcustomer'>
+        <form class="layui-form" id="add-product-form">
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">产品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="productname" required lay-verify="required"
+                        placeholder="请输入产品名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">产品类别</label>
+                <div class="layui-input-block">
+                    <select name="productclass" lay-verify="required">
+                        <option value=""></option>
+                        <option value="显示器">显示器</option>
+                        <option value="内存">内存</option>
+                        <option value="存储器">存储器</option>
+                        <option value="设备">设备</option>
+                        <option value="处理器">处理器</option>
+                        <option value="图书">图书</option>
+                        <option value="主板">主板</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">产品定价</label>
+                <div class="layui-input-block">
+                    <input type="text" name="productprice" required lay-verify="required"
+                        placeholder="请输入产品定价" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="width: 564.4px;">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="addproduct">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="return">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+  <script src="./layui/layui.js"></script>
+  <script>
+    layui.use('form', function(){
+      var form = layui.form;
+      layer.config({
+                offset: '200px'
+            });
+      //监听提交
+      form.on('submit(addproduct)', function(data){
+        $.ajax({
+            type:"POST",
+            url:"../addproductServlet",
+            data:$("#add-product-form").serialize(),
+            success:function(res){
+            	if(res==="fail"){
+            		layer.msg('添加失败，请重新输入', {icon: 6,time: 1500},function(){
+                    	$('#return').trigger("click");
+                	});
+            	
+            	}else{
+            	layer.msg('提交成功', {icon: 6,time: 1500},function(){
+                	$('#return').trigger("click");
+            	});
+            	}
+            }
+        });
+        return false;
+      });
+     
+      
+      
+    });
+    </script>
+</body>
+</html>

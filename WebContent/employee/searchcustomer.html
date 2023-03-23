@@ -1,0 +1,266 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <title>查看客户</title>
+</head>
+<body>
+    <div class='panel-1' id='searchcustomer'>
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="height: auto;">
+                    <div class="layui-form-item">
+                        <div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">客户编号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="customerno" placeholder="请输入" autocomplete="off"
+                                        class="layui-input" id="customerno">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">客户名称</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="customername" placeholder="请输入" autocomplete="off"
+                                        class="layui-input" id="customername">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">手机</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="telephone" placeholder="请输入" autocomplete="off"
+                                        class="layui-input" id="telephone">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">客户住址</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="address" placeholder="请输入" autocomplete="off"
+                                        class="layui-input" id="address">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">邮政编码</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="zip" placeholder="请输入" autocomplete="off"
+                                        class="layui-input" id="zip">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <button class="layui-btn layuiadmin-btn-useradmin" lay-submit=""
+                                    lay-filter="LAY-user-front-search" data-type="reload" id="searchcustbtn">
+                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="layui-table" id="custtable" lay-filter="searchcustomer"></table>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="./layui/layui.js"></script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#custtable',
+            height: 312,
+            width: 1065,
+            url: '../ShowCustomers' //数据接口
+                ,
+            id: 'custReload',
+            page: true //开启分页
+                ,
+            limit: 30,
+            cols: [
+                [ //表头
+                    {
+                        field: 'customerno',
+                        title: '客户编号',
+                        width: 100,
+                        sort: true
+                    }, {
+                        field: 'customername',
+                        title: '客户名称',
+                        width: 180
+                    }, {
+                        field: 'address',
+                        title: '客户住址',
+                        width: 180
+                    }, {
+                        field: 'telephone',
+                        title: '手机',
+                        width: 180
+                    }, {
+                        field: 'zip',
+                        title: '邮政编码',
+                        width: 120
+                    }, {
+                        field: 'createdate',
+                        title: '创建时间',
+                        width: 120,
+                        templet: "<div>{{layui.util.toDateString(d.createdate, 'yyyy-MM-dd')}}</div>",
+                        sort: true
+                    }, {
+                        field: 'right',
+                        title: '操作',
+                        width: 175,
+                        align: 'center',
+                        toolbar: '#barDemo'
+                    }
+                ]
+            ]
+        });
+        var $ = layui.$,
+            active = {
+                reload: function () {
+                    var customerno = $('#customerno');
+                    var customername = $('#customername');
+                    var address = $('#address');
+                    var telephone = $('#telephone');
+                    var zip = $('#zip');
+
+                        //执行重载
+                        table.reload('custReload', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            },
+                            where: {
+
+                                customerno: customerno.val(),
+                                customername: customername.val(),
+                                address: address.val(),
+                                telephone: telephone.val(),
+                                zip: zip.val()
+
+                            }
+                        });
+                }
+            };
+
+        $('#searchcustbtn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+
+
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function (obj) {
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(searchcustomer)', function (obj) {
+            var data = obj.data;
+            data.createdate = layui.util.toDateString(data.createdate, 'yyyy-MM-dd');
+            layer.config({
+                offset: '150px'
+            });
+            if (obj.event === 'detail') {
+                layer.open({
+                    type: 2,
+                    title: '查看客户信息',
+                    area: ['650px', '300px'],
+                    offset: '150px',
+                    btn: ['确认'],
+                    shadeClose: true,
+                    shade: 0.4,
+                    maxmin: true,
+                    content: 'custdetails.html',
+                    success: function (layero, index) {
+                        let body = layer.getChildFrame('body', index);
+                        body.find("#customerno").val(data.customerno);
+                        body.find("#customername").val(data.customername);
+                        body.find("#telephone").val(data.telephone);
+                        body.find("#address").val(data.address);
+                        body.find("#zip").val(data.zip);
+                        body.find("#createdate").val(data.createdate);
+                        layui.form.render();
+                    },
+                    yes: function (index, layero) {
+                        layer.close(index);
+                    }
+                })
+
+
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                 	   type:"POST",
+                 	   url:"../CustomerManager",
+                 	   data:{
+                 		    "method":"delete",
+                    		"customerno":data.customerno
+                 	   },
+                 	   success:function(){
+                 		   layui.alert("删除成功")
+                 	   }
+                 	   
+                    });
+
+                });
+            } else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '修改客户信息',
+                    area: ['650px', '300px'],
+                    offset: '150px',
+                    btn: ['确认', '取消'],
+                    shadeClose: true,
+                    shade: 0.4,
+                    maxmin: true,
+                    content: 'edit-cust.html',
+                    success: function (layero, index) {
+                        let body = layer.getChildFrame('body', index);
+                        body.find("#customerno").val(data.customerno);
+                        body.find("#customername").val(data.customername);
+                        body.find("#telephone").val(data.telephone);
+                        body.find("#address").val(data.address);
+                        body.find("#zip").val(data.zip);
+                        body.find("#createdate").val(data.createdate);
+                        layui.form.render();
+                    },
+                    yes: function (index, layero) {
+                        let body = layer.getChildFrame('body', index);
+                        body.find("#edit-cust-form").submit();
+                        obj.update({
+                            customername: body.find("#customername").val(),
+                            address: body.find("#address").val(),
+                            zip: body.find("#zip").val(),
+                            telephone: body.find("#telephone").val(),
+                        });
+               //         layer.msg('修改成功', {icon: 6,time: 1500});
+                        layer.close(index);
+                    },
+                    cancel: function (index, layero) {
+                        layer.close(index);
+                    }
+                })
+            }
+        })
+
+    });
+</script>
+
+</html>

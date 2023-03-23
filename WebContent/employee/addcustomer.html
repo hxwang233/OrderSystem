@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <title>添加客户</title>
+</head>
+<body>
+    <div class='panel-1' id='addcustomer'>
+        <form class="layui-form" id="add-cust-form">
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">客户名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required"
+                        placeholder="请输入客户名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">客户住址</label>
+                <div class="layui-input-block">
+                    <select name="address" lay-verify="required">
+                        <option value=""></option>
+                        <option value="北京市">北京市</option>
+                        <option value="上海市">上海市</option>
+                        <option value="广州市">广州市</option>
+                        <option value="深圳市">深圳市</option>
+                        <option value="杭州市">杭州市</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">客户电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="telephone" required lay-verify="required"
+                        placeholder="请输入客户电话" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <label class="layui-form-label">邮政编码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="zip" required lay-verify="required"
+                        placeholder="请输入邮政编码" autocomplete="off" class="layui-input">
+                        <input type="hidden" name="method" value="insert">
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 564.4px;">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="test">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="return">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+  <script src="./layui/layui.js"></script>
+  <script>
+    layui.use('form', function(){
+      var form = layui.form;
+      layer.config({
+                offset: '200px'
+            });
+      //监听提交
+      form.on('submit(test)', function(data){
+        $.ajax({
+            type:"POST",
+            url:"../CustomerManager",
+            data:$("#add-cust-form").serialize(),
+            success:function(){
+            	layer.msg('提交成功', {icon: 6,time: 1500},function(){
+                	$('#return').trigger("click");
+            	});
+            }
+        
+        });
+        return false;
+      });
+    });
+</script>
+</body>
+</html>
